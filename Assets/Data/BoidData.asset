@@ -1,0 +1,27 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 46f94e040da524dda88fc41622884d43, type: 3}
+  m_Name: BoidData
+  m_EditorClassIdentifier: ProjectBoid::ProjectBoid.Data.BoidDataSO
+  <MaxSpeed>k__BackingField: 8
+  <MinSpeed>k__BackingField: 5
+  <MaxSteerForce>k__BackingField: 50
+  <RayViewDirectionCount>k__BackingField: 200
+  <BoundsRadius>k__BackingField: 0.3
+  <RayDistance>k__BackingField: 5
+  <AvoidCollisionWeight>k__BackingField: 20
+  <ObstacleLayer>k__BackingField:
+    serializedVersion: 2
+    m_Bits: 64
+  <UnitPrefab>k__BackingField: {fileID: 1110002548000038943, guid: f9309189279a541579525bec73ae6ecb, type: 3}
+  <UnitSpawnCount>k__BackingField: 200
+  <SpawnRadius>k__BackingField: 5
