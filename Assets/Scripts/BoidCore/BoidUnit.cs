@@ -1,7 +1,7 @@
 using System;
-using System.Data;
 using ProjectBoid.Data;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ProjectBoid.BoidCore
 {
@@ -11,6 +11,10 @@ namespace ProjectBoid.BoidCore
         [Space] [SerializeField] private BoidDataSO _boidData;
         [SerializeField] private Transform _target;
 
+        [Header("Visual")] [SerializeField] private Renderer _renderer;
+        [SerializeField] private Color _colorA;
+        [SerializeField] private Color _colorB;
+
         [Space] private Vector3 _position;
         private Vector3 _velocity;
         private Vector3 _acceleration;
@@ -18,6 +22,11 @@ namespace ProjectBoid.BoidCore
 
         private Transform _cachedTransform;
         private Vector3[] _rayDirections;
+
+        private void Awake()
+        {
+            GetRandomGradientColor();
+        }
 
         private void Start()
         {
@@ -141,6 +150,16 @@ namespace ProjectBoid.BoidCore
                 var z = Mathf.Cos(inclination);
                 _rayDirections[i] = new Vector3(x, y, z);
             }
+        }
+
+        private void GetRandomGradientColor()
+        {
+            var t = Random.Range(0f, 1f);
+            
+            var gradColor = Color.Lerp(_colorA, _colorB, t);
+
+            if (_renderer)
+                _renderer.material.color = gradColor;
         }
     }
 }

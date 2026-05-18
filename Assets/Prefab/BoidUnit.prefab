@@ -45,10 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94dc46f528d054a16b6491ccb2a452d5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::BoidUnit
+  _debug: 0
   _boidData: {fileID: 11400000, guid: c1030ce10f3ce49fe999b0fcad268b06, type: 2}
-  _maxSpeed: 5
-  _velocity: {x: 0, y: 0, z: 0}
-  _acceleration: {x: 0, y: 0, z: 0}
+  _target: {fileID: 0}
+  _renderer: {fileID: 5758854241971871559}
+  _colorA: {r: 0, g: 0.86100006, b: 1, a: 1}
+  _colorB: {r: 0.3613669, g: 0.18823528, b: 0.9254902, a: 1}
 --- !u!1001 &6352919679503074243
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -106,6 +108,11 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e65fd18dbec64297b74020dd3ee4a32, type: 3}
+--- !u!23 &5758854241971871559 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: -7511558181221131132, guid: 9e65fd18dbec64297b74020dd3ee4a32, type: 3}
+  m_PrefabInstance: {fileID: 6352919679503074243}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &6890687438161962024 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 9e65fd18dbec64297b74020dd3ee4a32, type: 3}
