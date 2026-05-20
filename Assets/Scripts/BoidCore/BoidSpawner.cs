@@ -1,3 +1,4 @@
+using System.Collections;
 using ProjectBoid.Data;
 using UnityEngine;
 
@@ -8,6 +9,11 @@ namespace ProjectBoid.BoidCore
         [SerializeField] private BoidDataSO _boidData;
 
         private void Awake()
+        {
+            StartCoroutine(SpawnBoids());
+        }
+
+        IEnumerator SpawnBoids()
         {
             GameObject unitParent =  new GameObject("UnitParent");
             unitParent.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
@@ -23,6 +29,9 @@ namespace ProjectBoid.BoidCore
                 unit.name = $"BoidUnit ({i + 1})";
                 
                 unit.transform.parent = unitParent.transform;
+                
+                //yield return new WaitForSeconds(0.05f);
+                yield return new WaitForEndOfFrame();
             }
         }
 

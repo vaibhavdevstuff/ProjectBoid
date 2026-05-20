@@ -24,4 +24,4 @@ MonoBehaviour:
     m_Bits: 64
   <UnitPrefab>k__BackingField: {fileID: 1110002548000038943, guid: f9309189279a541579525bec73ae6ecb, type: 3}
   <UnitSpawnCount>k__BackingField: 200
-  <SpawnRadius>k__BackingField: 5
+  <SpawnRadius>k__BackingField: 1.73
