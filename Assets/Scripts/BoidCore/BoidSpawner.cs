@@ -7,22 +7,35 @@ namespace ProjectBoid.BoidCore
     public class BoidSpawner : MonoBehaviour
     {
         [SerializeField] private BoidDataSO _boidData;
+        [SerializeField] private bool _spawnAtOnce = false;
 
+        BoidManager _boidManager;
+        
         private void Awake()
         {
+            _boidManager = FindAnyObjectByType<BoidManager>();
+
+            if (!_boidManager)
+            {
+                Debug.LogError($"BoidManager not found on {gameObject.name}");
+                return;
+            }
+            
+            _boidManager.SetBoidCount(_boidData.UnitSpawnCount);
+            
             StartCoroutine(SpawnBoids());
         }
 
         IEnumerator SpawnBoids()
         {
-            GameObject unitParent =  new GameObject("UnitParent");
+            var unitParent =  new GameObject("UnitParent");
             unitParent.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
             
             for (var i = 0; i < _boidData.UnitSpawnCount; i++) 
             {
                 var spawnPosition = transform.position + Random.insideUnitSphere * _boidData.SpawnRadius;
                 
-                var unit = Instantiate (_boidData.UnitPrefab);
+                var unit = Instantiate(_boidData.BoidUnit);
                 unit.transform.position = spawnPosition;
                 unit.transform.forward = Random.insideUnitSphere;
                 
@@ -30,8 +43,10 @@ namespace ProjectBoid.BoidCore
                 
                 unit.transform.parent = unitParent.transform;
                 
-                //yield return new WaitForSeconds(0.05f);
-                yield return new WaitForEndOfFrame();
+                _boidManager.AddBoidUnit(unit);
+                
+                if (!_spawnAtOnce)
+                    yield return new WaitForEndOfFrame();
             }
         }
 
