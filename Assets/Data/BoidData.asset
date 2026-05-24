@@ -28,5 +28,5 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 64
   <BoidUnit>k__BackingField: {fileID: 2007365714679243623, guid: f9309189279a541579525bec73ae6ecb, type: 3}
-  <UnitSpawnCount>k__BackingField: 2000
+  <UnitSpawnCount>k__BackingField: 500
   <SpawnRadius>k__BackingField: 1.73

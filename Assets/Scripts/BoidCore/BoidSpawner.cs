@@ -8,6 +8,7 @@ namespace ProjectBoid.BoidCore
     {
         [SerializeField] private BoidDataSO _boidData;
         [SerializeField] private bool _spawnAtOnce = false;
+        [SerializeField] private float _startWaitTime = 1f;
 
         BoidManager _boidManager;
         
@@ -28,6 +29,9 @@ namespace ProjectBoid.BoidCore
 
         IEnumerator SpawnBoids()
         {
+            if(_startWaitTime > 0)
+                yield return new WaitForSeconds(_startWaitTime);
+            
             var unitParent =  new GameObject("UnitParent");
             unitParent.transform.SetPositionAndRotation(Vector3.zero, Quaternion.identity);
             
