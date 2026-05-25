@@ -1,6 +1,7 @@
 using System;
 using ProjectBoid.Data;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using Random = UnityEngine.Random;
 
 namespace ProjectBoid.BoidCore
@@ -15,14 +16,51 @@ namespace ProjectBoid.BoidCore
         [SerializeField] private Color _colorA;
         [SerializeField] private Color _colorB;
 
-        [Space] private Vector3 _position;
+        //--------------------------------------------------------------------------------------
+        
+        private bool _canFollowTarget = false;
+        
+        private float _perceivedFlockmatesCount;
+        
+        private Vector3 _averageFlockHeadingDirection;
+        private Vector3 _centerOfFlock;
+        private Vector3 _averageAvoidanceHeading;
+        
+        private Vector3 _position;
         private Vector3 _velocity;
         private Vector3 _acceleration;
         private Vector3 _forward;
-
-        private Transform _cachedTransform;
         private Vector3[] _rayDirections;
+        
+        private Transform _cachedTransform;
+        
+        private BoidManager _boidManager;
+        
+        //--------------------------------------------------------------------------------------
 
+        public Vector3 Position => _position;
+        public Vector3 Forward => _forward;
+        public float PerceivedFlockmatesCount
+        {
+            get => _perceivedFlockmatesCount;
+            set => _perceivedFlockmatesCount = value;
+        }
+        public Vector3 AverageFlockHeadingDirection
+        {
+            get => _averageFlockHeadingDirection;
+            set => _averageFlockHeadingDirection = value;
+        }
+        public Vector3 CenterOfFlock
+        {
+            get => _centerOfFlock;
+            set => _centerOfFlock = value;
+        }
+        public Vector3 AverageAvoidanceHeading
+        {
+            get => _averageAvoidanceHeading;
+            set => _averageAvoidanceHeading = value;
+        }
+        
         private void Awake()
         {
             GetRandomGradientColor();
@@ -39,9 +77,41 @@ namespace ProjectBoid.BoidCore
             _velocity = _forward * _boidData.MaxSpeed;
         }
 
+        public void SetBoidManager(BoidManager boidManager)
+        {
+            _boidManager = boidManager;
+        }
+
+        public void SetTarget(Transform target)
+        {
+            _target = target;
+        }
+
         private void Update()
         {
+            //UpdateUnit();
+
+            if (Keyboard.current.spaceKey.wasPressedThisFrame)
+                _canFollowTarget = !_canFollowTarget;
+        }
+        
+        public void UpdateUnit()
+        {
             _acceleration += GetTargetSteerForce();
+            
+            if (_perceivedFlockmatesCount != 0) {
+                _centerOfFlock /= _perceivedFlockmatesCount;
+
+                var offsetToFlockmatesCentre = (_centerOfFlock - _position);
+
+                var alignmentForce = SteerTowards (_averageFlockHeadingDirection) * _boidData.AlignWeight;
+                var cohesionForce = SteerTowards (offsetToFlockmatesCentre) * _boidData.CohesionWeight;
+                var seperationForce = SteerTowards (_averageAvoidanceHeading) * _boidData.SeperateWeight;
+
+                _acceleration += alignmentForce;
+                _acceleration += cohesionForce;
+                _acceleration += seperationForce;
+            }
 
             // Check Obstacle Collision
             if (IsGoingToCollision())
@@ -74,7 +144,7 @@ namespace ProjectBoid.BoidCore
 
         private Vector3 GetTargetSteerForce()
         {
-            if (!_target) return Vector3.zero;
+            if (!_target || !_canFollowTarget) return Vector3.zero;
 
             var dirToTarget = _target.position - _position;
             var targetSteerForce = SteerTowards(dirToTarget);
@@ -160,6 +230,14 @@ namespace ProjectBoid.BoidCore
 
             if (_renderer)
                 _renderer.material.color = gradColor;
+        }
+
+        public void ResetBoidBehaviourData()
+        {
+            _perceivedFlockmatesCount = 0;
+            _centerOfFlock = Vector3.zero;
+            _averageAvoidanceHeading = Vector3.zero;
+            _averageFlockHeadingDirection = Vector3.zero;
         }
     }
 }

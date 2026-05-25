@@ -12,9 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 46f94e040da524dda88fc41622884d43, type: 3}
   m_Name: BoidData
   m_EditorClassIdentifier: ProjectBoid::ProjectBoid.Data.BoidDataSO
-  <MaxSpeed>k__BackingField: 8
+  <MaxSpeed>k__BackingField: 15
   <MinSpeed>k__BackingField: 5
-  <MaxSteerForce>k__BackingField: 50
+  <MaxSteerForce>k__BackingField: 20
+  <PerceptionRadius>k__BackingField: 2
+  <AvoidanceRadius>k__BackingField: 0.8
+  <AlignWeight>k__BackingField: 2
+  <CohesionWeight>k__BackingField: 1
+  <SeperateWeight>k__BackingField: 2.5
   <RayViewDirectionCount>k__BackingField: 200
   <BoundsRadius>k__BackingField: 0.3
   <RayDistance>k__BackingField: 5
@@ -22,6 +27,6 @@ MonoBehaviour:
   <ObstacleLayer>k__BackingField:
     serializedVersion: 2
     m_Bits: 64
-  <UnitPrefab>k__BackingField: {fileID: 1110002548000038943, guid: f9309189279a541579525bec73ae6ecb, type: 3}
-  <UnitSpawnCount>k__BackingField: 200
-  <SpawnRadius>k__BackingField: 5
+  <BoidUnit>k__BackingField: {fileID: 2007365714679243623, guid: f9309189279a541579525bec73ae6ecb, type: 3}
+  <UnitSpawnCount>k__BackingField: 500
+  <SpawnRadius>k__BackingField: 1.73

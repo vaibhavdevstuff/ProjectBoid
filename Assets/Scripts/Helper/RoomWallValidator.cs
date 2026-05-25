@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ProjectBoid.Helper
@@ -73,6 +74,11 @@ namespace ProjectBoid.Helper
             );
         }
 
+        private void Start()
+        {
+            HideRenderer();
+        }
+
         private void SetupWall(Transform wall, Vector3 localPosition, Vector3 localScale)
         {
             if (wall == null)
@@ -81,6 +87,24 @@ namespace ProjectBoid.Helper
             wall.localPosition = localPosition;
             wall.localRotation = Quaternion.identity;
             wall.localScale = localScale;
+        }
+
+        [ContextMenu("Show Renderer")]
+        private void ShowRenderer()
+        {
+            foreach (var wall in _walls)
+            {
+                wall.GetComponent<Renderer>().enabled = true;
+            }
+        }
+        
+        [ContextMenu("Hide Renderer")]
+        private void HideRenderer()
+        {
+            foreach (var wall in _walls)
+            {
+                wall.GetComponent<Renderer>().enabled = false;
+            }
         }
     }
 }
