@@ -106,11 +106,11 @@ namespace ProjectBoid.BoidCore
 
                 var alignmentForce = SteerTowards (_averageFlockHeadingDirection) * _boidData.AlignWeight;
                 var cohesionForce = SteerTowards (offsetToFlockmatesCentre) * _boidData.CohesionWeight;
-                var seperationForce = SteerTowards (_averageAvoidanceHeading) * _boidData.SeperateWeight;
+                var separationForce = SteerTowards (_averageAvoidanceHeading) * _boidData.SeperateWeight;
 
                 _acceleration += alignmentForce;
                 _acceleration += cohesionForce;
-                _acceleration += seperationForce;
+                _acceleration += separationForce;
             }
 
             // Check Obstacle Collision
