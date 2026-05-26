@@ -8,6 +8,7 @@ namespace ProjectBoid.BoidCore
     {
         [SerializeField] private BoidDataSO _boidData;
         [SerializeField] private bool _spawnAtOnce = false;
+        [SerializeField] private int _spawnsPerFrame = 1;
         [SerializeField] private float _startWaitTime = 1f;
 
         BoidManager _boidManager;
@@ -21,8 +22,6 @@ namespace ProjectBoid.BoidCore
                 Debug.LogError($"BoidManager not found on {gameObject.name}");
                 return;
             }
-            
-            _boidManager.SetBoidCount(_boidData.UnitSpawnCount);
             
             StartCoroutine(SpawnBoids());
         }
@@ -49,7 +48,7 @@ namespace ProjectBoid.BoidCore
                 
                 _boidManager.AddBoidUnit(unit);
                 
-                if (!_spawnAtOnce)
+                if (!_spawnAtOnce && (i + 1) % Mathf.Max(1, _spawnsPerFrame) == 0)
                     yield return new WaitForEndOfFrame();
             }
         }
