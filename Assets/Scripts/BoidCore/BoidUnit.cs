@@ -15,6 +15,7 @@ namespace ProjectBoid.BoidCore
         [Header("Visual")] [SerializeField] private Renderer _renderer;
         [SerializeField] private Color _colorA;
         [SerializeField] private Color _colorB;
+        [SerializeField] private Color _lookUpColor = Color.red;
 
         //--------------------------------------------------------------------------------------
         
@@ -31,6 +32,8 @@ namespace ProjectBoid.BoidCore
         private Vector3 _acceleration;
         private Vector3 _forward;
         private Vector3[] _rayDirections;
+        
+        private Color _cachedBodyColor;
         
         private Transform _cachedTransform;
         
@@ -85,6 +88,11 @@ namespace ProjectBoid.BoidCore
         public void SetTarget(Transform target)
         {
             _target = target;
+        }
+
+        public void UnderLookup(bool value)
+        {
+            SetColor(value ? _lookUpColor : _cachedBodyColor);
         }
 
         private void Update()
@@ -228,8 +236,16 @@ namespace ProjectBoid.BoidCore
             
             var gradColor = Color.Lerp(_colorA, _colorB, t);
 
+            _cachedBodyColor =  gradColor;
+            
             if (_renderer)
                 _renderer.material.color = gradColor;
+        }
+
+        private void SetColor(Color color)
+        {
+            if (_renderer)
+                _renderer.material.color = color;
         }
 
         public void ResetBoidBehaviourData()

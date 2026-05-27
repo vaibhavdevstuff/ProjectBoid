@@ -1,11 +1,15 @@
+using System;
 using System.Collections.Generic;
 using ProjectBoid.Data;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 namespace ProjectBoid.BoidCore
 {
     public class BoidManager : MonoBehaviour
     {
+        public static BoidManager Instance;
+        
         [SerializeField] private BoidDataSO _boidData;
         [SerializeField] private Transform _target;
 
@@ -14,6 +18,11 @@ namespace ProjectBoid.BoidCore
         private BoidJobData _jobData;
         
         public List<BoidUnit> BoidUnits => _boidUnits;
+
+        private void Awake()
+        {
+            Instance = this;
+        }
 
         private void Start()
         {
@@ -101,6 +110,18 @@ namespace ProjectBoid.BoidCore
             {
                 boidUnit.UpdateUnit();
             }
+        }
+
+        public BoidUnit GetRandomBoidUnit()
+        {
+            var boidUnit = _boidUnits[Random.Range(0, _boidUnits.Count)];
+
+            while (boidUnit == null)
+            {
+                boidUnit = _boidUnits[Random.Range(0, _boidUnits.Count)];
+            }
+            
+            return boidUnit;
         }
 
     }
